@@ -5,7 +5,7 @@ services:
     container_name: jellyfin-rename
     restart: unless-stopped
     labels:
-      icon: https://raw.githubusercontent.com/sergioavila/jellyfin-rename/main/Apps/JellyfinRename/icon.png
+      icon: https://cdn.jsdelivr.net/gh/sergioavila/jellyfin-rename@main/Apps/JellyfinRename/icon.png
     network_mode: bridge
     environment:
       TZ: $TZ
@@ -200,8 +200,8 @@ x-casaos:
   author: Checho
   developer: Checho
   category: Media
-  icon: https://raw.githubusercontent.com/sergioavila/jellyfin-rename/main/Apps/JellyfinRename/icon.png
-  thumbnail: https://raw.githubusercontent.com/sergioavila/jellyfin-rename/main/Apps/JellyfinRename/icon.png
+  icon: https://cdn.jsdelivr.net/gh/sergioavila/jellyfin-rename@main/Apps/JellyfinRename/icon.png
+  thumbnail: https://cdn.jsdelivr.net/gh/sergioavila/jellyfin-rename@main/Apps/JellyfinRename/icon.png
   version: "1.0.1"
   tips:
     before_install:
