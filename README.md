@@ -31,7 +31,7 @@ git commit -m "CasaOS app store for Jellyfin Rename"
 gh repo create jellyfin-rename --public --source=. --remote=origin --push
 ```
 
-GitHub Actions publica `ghcr.io/sergioavila/jellyfin-rename:latest` (y el tag de versión). CasaOS no hace pull solo: o reinstala desde el ZIP, o usa Watchtower contra el contenedor `jellyfin-rename`.
+GitHub Actions publica `ghcr.io/sergioavila/jellyfin-rename:latest`. En CasaOS el campo Docker Image va **sin tag** (`ghcr.io/sergioavila/jellyfin-rename`) y el tag se elige aparte (`latest`). No uses `checho`: esa cuenta no tiene la imagen.
 
 La imagen en GHCR es privada por defecto en cuentas nuevas: en el repo → Packages → jellyfin-rename → Package settings → Change visibility → Public.
 
