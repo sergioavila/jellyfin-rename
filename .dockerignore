@@ -1,0 +1,7 @@
+.git
+.github
+*.md
+install.sh
+category-list.json
+recommend-list.json
+__pycache__

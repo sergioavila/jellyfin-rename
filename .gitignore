@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.log
+*.lock
+log.jsonl
+.DS_Store

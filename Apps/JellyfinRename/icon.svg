@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+<title id="title">Jellyfin Rename</title>
+<desc id="desc">Carpeta con símbolo de reproducción y lápiz en degradado violeta, azul y cian.</desc>
+<defs>
+ <linearGradient id="folder-gradient" x1="100" y1="190" x2="910" y2="760" gradientUnits="userSpaceOnUse"><stop stop-color="#812BFF"/><stop offset=".5" stop-color="#4357FF"/><stop offset="1" stop-color="#00BDEF"/></linearGradient>
+ <linearGradient id="play-gradient" x1="340" y1="420" x2="650" y2="690" gradientUnits="userSpaceOnUse"><stop stop-color="#7535FF"/><stop offset="1" stop-color="#00BFF2"/></linearGradient>
+ <linearGradient id="pencil-gradient" x1="650" y1="890" x2="900" y2="590" gradientUnits="userSpaceOnUse"><stop stop-color="#04B7F5"/><stop offset="1" stop-color="#69F6FF"/></linearGradient>
+</defs>
+<path id="folder" fill="url(#folder-gradient)" fill-rule="evenodd" d="M190 132H374Q417 132 447 167L480 207Q510 246 560 246H815Q930 246 930 362V758Q930 880 810 880H191Q76 880 76 765V252Q76 132 190 132ZM215 340Q168 340 168 388V746Q168 793 216 793H793Q840 793 840 746V387Q840 340 793 340Z"/>
+<path id="play" fill="url(#play-gradient)" d="M331 447Q331 389 383 418L602 544Q654 574 602 605L383 735Q331 765 331 707Z"/>
+<g id="pencil" transform="translate(780 710) rotate(43)">
+ <path fill="#087EFF" d="M-59-225H59Q94-225 94-190V121Q94 136 85 152L28 241Q0 279-28 241L-85 152Q-94 136-94 121V-190Q-94-225-59-225Z"/>
+ <rect x="-68" y="-200" width="136" height="107" rx="31" fill="#63F2FF"/>
+ <path fill="url(#pencil-gradient)" d="M-68-65H68V112H-68Z"/>
+ <path fill="#66F4FF" d="M-68 132H68L7 226Q0 237-7 226Z"/>
+</g>
+</svg>

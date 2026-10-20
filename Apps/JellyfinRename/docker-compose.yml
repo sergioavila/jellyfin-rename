@@ -1,0 +1,215 @@
+name: jellyfin-rename
+services:
+  jellyfin-rename:
+    image: ghcr.io/sergioavila/jellyfin-rename:1.0.0
+    container_name: jellyfin-rename
+    restart: unless-stopped
+    labels:
+      icon: https://raw.githubusercontent.com/sergioavila/jellyfin-rename/main/Apps/JellyfinRename/icon.png
+    network_mode: bridge
+    environment:
+      TZ: $TZ
+      MEDIA_ROOT: /media
+      LOG_PATH: /config/log.jsonl
+      INTERVAL: "1800"
+      PORT: "8080"
+    ports:
+      - target: 8080
+        published: "8098"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID
+        target: /config
+      - type: bind
+        source: /DATA/Media
+        target: /media
+    x-casaos:
+      envs:
+        - container: TZ
+          description:
+            en_us: Timezone
+            en_US: Timezone
+            es_es: Zona horaria
+        - container: INTERVAL
+          description:
+            en_us: Seconds between automatic renames after you enable scheduled renaming in the panel (0 disables)
+            en_US: Seconds between automatic renames after you enable scheduled renaming in the panel (0 disables)
+            es_es: Segundos entre renombrados automáticos después de activarlos en el panel (0 lo apaga)
+      ports:
+        - container: "8080"
+          description:
+            en_us: Web panel
+            en_US: Web panel
+            es_es: Panel web
+      volumes:
+        - container: /config
+          description:
+            en_us: App logs
+            en_US: App logs
+            es_es: Logs de la app
+        - container: /media
+          description:
+            en_us: Jellyfin Media folder (Movies, TV Shows, Anime)
+            en_US: Jellyfin Media folder (Movies, TV Shows, Anime)
+            es_es: Carpeta Media de Jellyfin (Movies, TV Shows, Anime)
+x-casaos:
+  id: app.sergioavila.jellyfin-rename
+  architectures:
+    - amd64
+    - arm64
+  main: jellyfin-rename
+  index: /
+  port_map: "8098"
+  scheme: http
+  title:
+    en_us: Jellyfin Rename
+    en_US: Jellyfin Rename
+    es_es: Jellyfin Rename
+    es_ES: Jellyfin Rename
+  tagline:
+    en_us: Keep your media names consistent and your Jellyfin library organized
+    en_US: Keep your media names consistent and your Jellyfin library organized
+    es_es: Keep your media names consistent and your Jellyfin library organized
+    es_ES: Keep your media names consistent and your Jellyfin library organized
+  description:
+    en_us: |
+      **Jellyfin Rename**
+
+      Keep your media names consistent and your Jellyfin library organized.
+
+      Jellyfin Rename watches your media folder and renames movies, TV shows, and anime using Jellyfin naming conventions.
+
+      Open the web panel to preview proposed changes before letting the app run every 30 minutes.
+
+      **Getting started**
+      1. Back up your media and test the app on a small copy of your files.
+      2. Map the container’s `/media` directory to the library folder you want to manage.
+      3. Open the web panel and carefully review the proposed changes.
+      4. Check your settings before leaving scheduled processing running.
+
+      **Important precautions**
+      - This app changes file and folder names in the mapped directory. Incorrect settings or naming matches may cause unwanted changes, identification errors, or playback issues.
+      - Only map folders you intend the app to manage. Avoid granting access to unrelated files or your entire storage volume.
+      - Review proposed changes carefully, especially for ambiguous titles, anime, specials, and custom folder structures.
+      - Keep a separate, verified backup. A preview is not a backup, and you should not assume changes can be undone.
+      - Avoid running other tools that move or rename the same files at the same time.
+
+      **Security**
+      Do not expose port 8098 to the internet. Keep the web panel accessible only through your trusted local network or a securely configured private connection.
+
+      **Disclaimer**
+      This software is provided “as is,” without warranties of any kind, to the extent permitted by applicable law. You are responsible for your configuration, directory mappings, permissions, and backups.
+
+      File operations carry risks. Incorrect use, misconfiguration, software defects, or interactions with other tools may result in unwanted renaming, overwritten or deleted files, data loss, or an unavailable media library. To the extent permitted by applicable law, the authors and contributors are not liable for losses or damage arising from use of this software.
+
+      Jellyfin Rename is an independent project and is not affiliated with or endorsed by Jellyfin or CasaOS.
+    en_US: |
+      **Jellyfin Rename**
+
+      Keep your media names consistent and your Jellyfin library organized.
+
+      Jellyfin Rename watches your media folder and renames movies, TV shows, and anime using Jellyfin naming conventions.
+
+      Open the web panel to preview proposed changes before letting the app run every 30 minutes.
+
+      **Getting started**
+      1. Back up your media and test the app on a small copy of your files.
+      2. Map the container’s `/media` directory to the library folder you want to manage.
+      3. Open the web panel and carefully review the proposed changes.
+      4. Check your settings before leaving scheduled processing running.
+
+      **Important precautions**
+      - This app changes file and folder names in the mapped directory. Incorrect settings or naming matches may cause unwanted changes, identification errors, or playback issues.
+      - Only map folders you intend the app to manage. Avoid granting access to unrelated files or your entire storage volume.
+      - Review proposed changes carefully, especially for ambiguous titles, anime, specials, and custom folder structures.
+      - Keep a separate, verified backup. A preview is not a backup, and you should not assume changes can be undone.
+      - Avoid running other tools that move or rename the same files at the same time.
+
+      **Security**
+      Do not expose port 8098 to the internet. Keep the web panel accessible only through your trusted local network or a securely configured private connection.
+
+      **Disclaimer**
+      This software is provided “as is,” without warranties of any kind, to the extent permitted by applicable law. You are responsible for your configuration, directory mappings, permissions, and backups.
+
+      File operations carry risks. Incorrect use, misconfiguration, software defects, or interactions with other tools may result in unwanted renaming, overwritten or deleted files, data loss, or an unavailable media library. To the extent permitted by applicable law, the authors and contributors are not liable for losses or damage arising from use of this software.
+
+      Jellyfin Rename is an independent project and is not affiliated with or endorsed by Jellyfin or CasaOS.
+    es_es: |
+      **Jellyfin Rename**
+
+      Keep your media names consistent and your Jellyfin library organized.
+
+      Jellyfin Rename watches your media folder and renames movies, TV shows, and anime using Jellyfin naming conventions.
+
+      Open the web panel to preview proposed changes before letting the app run every 30 minutes.
+
+      **Getting started**
+      1. Back up your media and test the app on a small copy of your files.
+      2. Map the container’s `/media` directory to the library folder you want to manage.
+      3. Open the web panel and carefully review the proposed changes.
+      4. Check your settings before leaving scheduled processing running.
+
+      **Important precautions**
+      - This app changes file and folder names in the mapped directory. Incorrect settings or naming matches may cause unwanted changes, identification errors, or playback issues.
+      - Only map folders you intend the app to manage. Avoid granting access to unrelated files or your entire storage volume.
+      - Review proposed changes carefully, especially for ambiguous titles, anime, specials, and custom folder structures.
+      - Keep a separate, verified backup. A preview is not a backup, and you should not assume changes can be undone.
+      - Avoid running other tools that move or rename the same files at the same time.
+
+      **Security**
+      Do not expose port 8098 to the internet. Keep the web panel accessible only through your trusted local network or a securely configured private connection.
+
+      **Disclaimer**
+      This software is provided “as is,” without warranties of any kind, to the extent permitted by applicable law. You are responsible for your configuration, directory mappings, permissions, and backups.
+
+      File operations carry risks. Incorrect use, misconfiguration, software defects, or interactions with other tools may result in unwanted renaming, overwritten or deleted files, data loss, or an unavailable media library. To the extent permitted by applicable law, the authors and contributors are not liable for losses or damage arising from use of this software.
+
+      Jellyfin Rename is an independent project and is not affiliated with or endorsed by Jellyfin or CasaOS.
+    es_ES: |
+      **Jellyfin Rename**
+
+      Keep your media names consistent and your Jellyfin library organized.
+
+      Jellyfin Rename watches your media folder and renames movies, TV shows, and anime using Jellyfin naming conventions.
+
+      Open the web panel to preview proposed changes before letting the app run every 30 minutes.
+
+      **Getting started**
+      1. Back up your media and test the app on a small copy of your files.
+      2. Map the container’s `/media` directory to the library folder you want to manage.
+      3. Open the web panel and carefully review the proposed changes.
+      4. Check your settings before leaving scheduled processing running.
+
+      **Important precautions**
+      - This app changes file and folder names in the mapped directory. Incorrect settings or naming matches may cause unwanted changes, identification errors, or playback issues.
+      - Only map folders you intend the app to manage. Avoid granting access to unrelated files or your entire storage volume.
+      - Review proposed changes carefully, especially for ambiguous titles, anime, specials, and custom folder structures.
+      - Keep a separate, verified backup. A preview is not a backup, and you should not assume changes can be undone.
+      - Avoid running other tools that move or rename the same files at the same time.
+
+      **Security**
+      Do not expose port 8098 to the internet. Keep the web panel accessible only through your trusted local network or a securely configured private connection.
+
+      **Disclaimer**
+      This software is provided “as is,” without warranties of any kind, to the extent permitted by applicable law. You are responsible for your configuration, directory mappings, permissions, and backups.
+
+      File operations carry risks. Incorrect use, misconfiguration, software defects, or interactions with other tools may result in unwanted renaming, overwritten or deleted files, data loss, or an unavailable media library. To the extent permitted by applicable law, the authors and contributors are not liable for losses or damage arising from use of this software.
+
+      Jellyfin Rename is an independent project and is not affiliated with or endorsed by Jellyfin or CasaOS.
+  author: Checho
+  developer: Checho
+  category: Media
+  icon: https://raw.githubusercontent.com/sergioavila/jellyfin-rename/main/Apps/JellyfinRename/icon.png
+  thumbnail: https://raw.githubusercontent.com/sergioavila/jellyfin-rename/main/Apps/JellyfinRename/icon.png
+  version: "1.0.0"
+  tips:
+    before_install:
+      en_us: |
+        Review before enabling scheduled renaming. This app will process the folder mapped to /media every 30 minutes and may change file and folder names. Check the selected folder, review the preview, and make sure you have a verified backup. Do not assume changes can be undone. Do not expose port 8098 to the internet.
+      en_US: |
+        Review before enabling scheduled renaming. This app will process the folder mapped to /media every 30 minutes and may change file and folder names. Check the selected folder, review the preview, and make sure you have a verified backup. Do not assume changes can be undone. Do not expose port 8098 to the internet.
+      es_es: |
+        Review before enabling scheduled renaming. This app will process the folder mapped to /media every 30 minutes and may change file and folder names. Check the selected folder, review the preview, and make sure you have a verified backup. Do not assume changes can be undone. Do not expose port 8098 to the internet.
+      es_ES: |
+        Review before enabling scheduled renaming. This app will process the folder mapped to /media every 30 minutes and may change file and folder names. Check the selected folder, review the preview, and make sure you have a verified backup. Do not assume changes can be undone. Do not expose port 8098 to the internet.
