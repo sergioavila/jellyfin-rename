@@ -765,7 +765,7 @@ def crumb_html(rel: str) -> str:
 
 def table_html(rows: list[Row], need_only: bool) -> str:
     out = [
-        "<table><thead><tr><th></th><th>Name</th><th>Status</th><th>Would become</th></tr></thead><tbody>"
+        '<table><thead><tr><th scope="col"><span class="vh">Select</span></th><th scope="col">Name</th><th scope="col">Status</th><th scope="col">Would become</th></tr></thead><tbody>'
     ]
     shown = 0
     for r in rows:
@@ -790,6 +790,18 @@ def table_html(rows: list[Row], need_only: bool) -> str:
         out.append('<tr><td colspan="4" class="empty">Nothing in this folder.</td></tr>')
     out.append("</tbody></table>")
     return "".join(out)
+
+
+def toast_html(kind: str, msg: str) -> str:
+    if kind not in {"ok", "err"} or not msg:
+        return ""
+    role = "alert" if kind == "err" else "status"
+    return (
+        f'<div class="toast {kind}" role="{role}">'
+        f"<p>{html_lib.escape(msg)}</p>"
+        f'<button type="button" class="toast-x" aria-label="Dismiss">Dismiss</button>'
+        f"</div>"
+    )
 
 
 def self_test() -> int:
@@ -901,6 +913,11 @@ def self_test() -> int:
     finally:
         shutil.rmtree(tmp)
 
+    assert 'role="status"' in toast_html("ok", "Renamed 1")
+    assert 'role="alert"' in toast_html("err", "fail")
+    assert toast_html("", "x") == ""
+    assert "&lt;" in toast_html("ok", "<x>")
+
     print("self-test ok")
     return 0
 
@@ -951,7 +968,6 @@ def gate_html(enabled: bool, interval: int) -> str:
 
 ABOUT_HTML = """
 <div class="about">
-<p><b>Jellyfin Rename</b></p>
 <p>Keep your media names consistent and your Jellyfin library organized.</p>
 <p>Jellyfin Rename watches your media folder and renames movies, TV shows, and anime using Jellyfin naming conventions.</p>
 <p>Open the web panel to preview proposed changes before letting the app run every 30 minutes.</p>
@@ -990,100 +1006,203 @@ PAGE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jellyfin Rename</title>
 <link rel="icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #111111;
-  --surface: #1c1c1c;
-  --text: #e8e8e8;
-  --muted: #8a8a8a;
-  --line: #2a2a2a;
-  --accent: #00a4dc;
+  --bg: #161a20;
+  --surface: #21346e;
+  --text: #F5F5F5;
+  --muted: #CCCCCC;
+  --line: #2A4080;
+  --accent: #CCCCCC;
+  --primary: #21346e;
+  --neutral: #1A1A1A;
+  --soft: #F5F5F5;
   --ok: #5aa36a;
   --warn: #c9a227;
   --danger: #c45c5c;
+  --radius: 8px;
+  --space: 0.5rem;
+  --pad: 1.5rem;
+  --max: 1280px;
+  --measure: 72ch;
+  --sans: Rubik, ui-sans-serif, system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
 }
 * { box-sizing: border-box; }
+html, body { min-height: 100dvh; }
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 14px/1.45 ui-sans-serif, system-ui, sans-serif;
+  font: 400 1rem/1.6 var(--sans);
+  overscroll-behavior: contain;
 }
-main { max-width: 1100px; margin: 0 auto; padding: 24px; }
-.brand { display: flex; gap: 12px; align-items: center; margin: 0 0 16px; }
-.brand img { width: 48px; height: 48px; border-radius: 4px; }
-.brand h1 { font-size: 18px; font-weight: 600; margin: 0; }
-.about { max-width: 720px; margin: 0 0 16px; }
-.about h2 { font-size: 14px; font-weight: 600; margin: 16px 0 8px; }
-.about ol, .about ul { margin: 0 0 16px; padding-left: 20px; }
-.about summary { cursor: pointer; color: var(--muted); }
+main { max-width: var(--max); margin: 0 auto; padding: var(--pad); }
+.brand { max-width: var(--measure); margin: 0 0 1rem; }
+.brand h1 { margin: 0; }
+.brand img { height: clamp(64px, 18vw, 96px); width: auto; max-width: 100%; display: block; }
+.about, .gate { max-width: var(--measure); margin: 0 0 1rem; }
+.about h2, .gate h2 { font-size: 1.5rem; font-weight: 700; line-height: 1.2; margin: 1rem 0 0.5rem; }
+.gate h2 { margin-top: 0; }
+.about ol, .about ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+.about summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
 .gate {
-  max-width: 720px;
   background: var(--surface);
   border: 1px solid var(--warn);
-  border-radius: 4px;
-  padding: 16px;
-  margin: 0 0 16px;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 1rem;
 }
-.gate h2 { font-size: 14px; font-weight: 600; margin: 0 0 16px; }
-.gate p { margin: 0 0 16px; }
-.ack { margin: 0 0 16px; }
-.ack label { display: flex; gap: 8px; align-items: flex-start; }
-.ack input { margin-top: 3px; }
-.row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; align-items: center; }
-.status { color: var(--muted); }
+.gate p { margin: 0 0 1rem; }
+.ack { margin: 0 0 1rem; }
+.ack label { display: flex; gap: var(--space); align-items: flex-start; }
+.ack input { margin-top: 0.3rem; flex: 0 0 auto; }
+.row { display: flex; flex-wrap: wrap; gap: var(--space); margin: 0 0 1rem; align-items: center; }
+.status { color: var(--muted); font-size: 0.875rem; font-weight: 500; }
 .dot { width: 8px; height: 8px; border-radius: 4px; background: var(--ok); display: inline-block; }
 .dot.off { background: var(--warn); }
 button {
-  background: var(--surface);
+  background: transparent;
   color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 8px 14px;
-  font: inherit;
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 12px 1rem;
+  font: 600 1rem/1.2 var(--sans);
   cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease, border-color 200ms ease;
 }
-button.primary { background: var(--accent); color: #041018; border-color: var(--accent); }
+button:hover:not(:disabled) {
+  transform: scale(1.03);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  background: rgba(42, 64, 128, 0.45);
+}
+button:active:not(:disabled) { transform: scale(0.95) translateY(1px); }
+button.primary {
+  background: var(--accent);
+  color: var(--neutral);
+  border-color: var(--accent);
+}
+button.primary:hover:not(:disabled) { background: #b8b8b8; border-color: #b8b8b8; }
 button:disabled { opacity: .5; cursor: not-allowed; }
-button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.muted { color: var(--muted); margin: 0 0 16px; }
-.crumb { margin: 0 0 16px; font: 12px/1.45 ui-monospace, monospace; color: var(--muted); }
+button:focus-visible, input:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.muted { color: var(--muted); margin: 0 0 1rem; }
+.crumb {
+  margin: 0 0 1rem;
+  font: 0.875rem/1.6 var(--mono);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
 .crumb a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); }
-.filters a { color: var(--muted); text-decoration: none; margin-right: 12px; }
-.filters a.on { color: var(--text); }
-.board { overflow: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); margin: 0 0 16px; }
-table { width: 100%; border-collapse: collapse; font: 12px/1.45 ui-monospace, monospace; }
+.filters { font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em; }
+.filters a { color: var(--muted); text-decoration: none; margin-right: 12px; padding-bottom: 2px; border-bottom: 2px solid transparent; }
+.filters a.on { color: var(--text); border-bottom-color: var(--accent); }
+.board {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin: 0 0 1rem;
+}
+table { width: 100%; min-width: 36rem; border-collapse: collapse; font: 0.875rem/1.5 var(--mono); }
 th {
   text-align: left;
-  font: 600 12px/1.45 ui-sans-serif, system-ui, sans-serif;
+  font: 500 0.875rem/1.5 var(--sans);
+  letter-spacing: 0.02em;
   color: var(--muted);
-  padding: 8px 10px;
+  padding: var(--space) 10px;
   border-bottom: 1px solid var(--line);
 }
-td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td { padding: var(--space) 10px; border-bottom: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
 tr:last-child td { border-bottom: 0; }
 td a { color: var(--text); }
 .ok .st { color: var(--ok); }
 .rename .st { color: var(--warn); }
-.empty { color: var(--muted); }
+.empty { color: var(--muted); font-family: var(--sans); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+input[type=checkbox] { width: 1.25rem; height: 1.25rem; accent-color: var(--accent); }
 pre {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 16px;
+  border-radius: var(--radius);
+  padding: 1rem;
   overflow: auto;
   white-space: pre-wrap;
-  font: 12px/1.45 ui-monospace, monospace;
+  overflow-wrap: anywhere;
+  font: 0.875rem/1.5 var(--mono);
   margin: 0;
   max-height: 30vh;
+}
+.toast {
+  position: fixed;
+  z-index: 500;
+  left: 1.5rem;
+  right: 1.5rem;
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+  max-width: 36rem;
+  margin: 0 auto;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 1rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--ok);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  font: 500 0.875rem/1.5 var(--sans);
+  animation: toast-in 200ms ease-out;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.toast p { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.toast.err { border-color: var(--danger); }
+.toast-x {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  min-height: 44px;
+  width: auto;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.toast.out { opacity: 0; transform: translateY(8px); }
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 767px) {
+  .row { flex-direction: column; align-items: stretch; }
+  button { width: 100%; min-height: 44px; }
+  input[type=checkbox] { width: 1.5rem; height: 1.5rem; }
+  .ack label { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  button { transition: none; }
+  button:hover:not(:disabled), button:active:not(:disabled) { transform: none; }
+  .toast { animation: none; }
+  .toast.out { transform: none; }
 }
 </style>
 </head>
 <body>
 <main>
 <div class="brand">
-<img src="/logo.png" width="48" height="48" alt="">
-<h1>Jellyfin Rename</h1>
+<h1><img src="/logo.png" alt="Jellyfin Rename"></h1>
 </div>
 __ABOUT__
 <p class="status"><span class="dot __DOT__"></span> __STATUS__</p>
@@ -1105,6 +1224,20 @@ __GATE__
 </form>
 <pre>__REPORT__</pre>
 </main>
+__TOAST__
+<script>
+(function(){
+  var t=document.querySelector('.toast');
+  if(!t) return;
+  function hide(){
+    t.classList.add('out');
+    t.addEventListener('transitionend', function(){ t.remove(); }, {once:true});
+    setTimeout(function(){ t.remove(); }, 400);
+  }
+  t.querySelector('.toast-x').addEventListener('click', hide);
+  setTimeout(hide, 5000);
+})();
+</script>
 </body>
 </html>
 """
@@ -1112,7 +1245,7 @@ __GATE__
 
 def serve(media_root: Path, log_path: Path, interval: int, port: int) -> int:
     # ponytail: no auth, LAN only. Add a token if you publish the port.
-    state: dict = {"busy": False, "report": "Escaneando…", "last": "iniciando", "plans": []}
+    state: dict = {"busy": False, "report": "Escaneando…", "last": "iniciando", "plans": [], "toast": None}
     interval = max(0, interval)
     lock = threading.Lock()
 
@@ -1124,26 +1257,29 @@ def serve(media_root: Path, log_path: Path, interval: int, port: int) -> int:
 
     def apply_moves(moves: list[Plan]) -> None:
         if not moves:
-            state["report"] = "Nothing selected to rename."
+            state["toast"] = ("err", "Nothing selected to rename.")
             return
         log_path.parent.mkdir(parents=True, exist_ok=True)
         try:
             fh = with_lock(log_path.with_suffix(".lock"))
         except BlockingIOError:
-            state["report"] = "Another rename is already running. Try again in a moment."
+            state["toast"] = ("err", "Another rename is already running. Try again in a moment.")
             return
         try:
             moved, skipped = apply_plans(moves, log_path)
             pruned = 0
             for path in classify_libraries(media_root).values():
                 pruned += prune_empty(path, {path})
-            state["report"] = f"Renamed {moved}, skipped {skipped}, removed {pruned} empty folders."
+            msg = f"Renamed {moved}, skipped {skipped}, removed {pruned} empty folders."
+            state["toast"] = ("ok", msg) if moved else ("err", msg)
         finally:
             fh.close()
         refresh()
 
     def job(apply: bool, rels: list[str] | None = None) -> None:
         if not lock.acquire(blocking=False):
+            if apply:
+                state["toast"] = ("err", "Another rename is already running. Try again in a moment.")
             return
         state["busy"] = True
         state["last"] = "renaming" if apply else "scanning"
@@ -1165,6 +1301,8 @@ def serve(media_root: Path, log_path: Path, interval: int, port: int) -> int:
         except Exception as exc:
             state["report"] = str(exc)
             state["last"] = "error"
+            if apply:
+                state["toast"] = ("err", str(exc))
         finally:
             state["busy"] = False
             lock.release()
@@ -1193,6 +1331,7 @@ def serve(media_root: Path, log_path: Path, interval: int, port: int) -> int:
             q_need = (q_all + ("&" if rel else "?")) + "need=1"
             if q_all == "/":
                 q_need = "/?need=1"
+            toast = state.pop("toast", None) or ("", "")
             body = (
                 PAGE.replace("__ABOUT__", ABOUT_HTML)
                 .replace("__GATE__", gate_html(schedule_enabled(log_path), interval))
@@ -1200,6 +1339,7 @@ def serve(media_root: Path, log_path: Path, interval: int, port: int) -> int:
                 .replace("__STATUS__", "working…" if state["busy"] else f"last: {state['last']}")
                 .replace("__MEDIA__", html_lib.escape(str(media_root)))
                 .replace("__REPORT__", html_lib.escape(state["report"]))
+                .replace("__TOAST__", toast_html(toast[0], toast[1]))
                 .replace("__CRUMB__", crumb_html(rel))
                 .replace("__TABLE__", table_html(rows, need_only))
                 .replace("__P__", html_lib.escape(rel, quote=True))
@@ -1231,7 +1371,7 @@ def serve(media_root: Path, log_path: Path, interval: int, port: int) -> int:
 
         def _static(self, body: bool) -> bool:
             route = urlparse(self.path).path
-            logo = first_file(APP_DIR / "logo.png", APP_DIR / "Apps/JellyfinRename/icon.png")
+            logo = first_file(APP_DIR / "logo.png", APP_DIR / "app-logo.png")
             store_png = first_file(APP_DIR / "store-icon.png", APP_DIR / "icon.png")
             store_svg = first_file(APP_DIR / "store-icon.svg", APP_DIR / "icon.svg")
             if route == "/logo.png" and logo:

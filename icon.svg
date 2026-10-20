@@ -1,17 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-<title id="title">Jellyfin Rename</title>
-<desc id="desc">Carpeta con símbolo de reproducción y lápiz en degradado violeta, azul y cian.</desc>
-<defs>
- <linearGradient id="folder-gradient" x1="100" y1="190" x2="910" y2="760" gradientUnits="userSpaceOnUse"><stop stop-color="#812BFF"/><stop offset=".5" stop-color="#4357FF"/><stop offset="1" stop-color="#00BDEF"/></linearGradient>
- <linearGradient id="play-gradient" x1="340" y1="420" x2="650" y2="690" gradientUnits="userSpaceOnUse"><stop stop-color="#7535FF"/><stop offset="1" stop-color="#00BFF2"/></linearGradient>
- <linearGradient id="pencil-gradient" x1="650" y1="890" x2="900" y2="590" gradientUnits="userSpaceOnUse"><stop stop-color="#04B7F5"/><stop offset="1" stop-color="#69F6FF"/></linearGradient>
-</defs>
-<path id="folder" fill="url(#folder-gradient)" fill-rule="evenodd" d="M190 132H374Q417 132 447 167L480 207Q510 246 560 246H815Q930 246 930 362V758Q930 880 810 880H191Q76 880 76 765V252Q76 132 190 132ZM215 340Q168 340 168 388V746Q168 793 216 793H793Q840 793 840 746V387Q840 340 793 340Z"/>
-<path id="play" fill="url(#play-gradient)" d="M331 447Q331 389 383 418L602 544Q654 574 602 605L383 735Q331 765 331 707Z"/>
-<g id="pencil" transform="translate(780 710) rotate(43)">
- <path fill="#087EFF" d="M-59-225H59Q94-225 94-190V121Q94 136 85 152L28 241Q0 279-28 241L-85 152Q-94 136-94 121V-190Q-94-225-59-225Z"/>
- <rect x="-68" y="-200" width="136" height="107" rx="31" fill="#63F2FF"/>
- <path fill="url(#pencil-gradient)" d="M-68-65H68V112H-68Z"/>
- <path fill="#66F4FF" d="M-68 132H68L7 226Q0 237-7 226Z"/>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:affinity="https://www.affinity.studio/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(0.803824,0,0,0.803824,5.492934,3.923525)">
+        <path d="M930.25,20C1096.238,20 1231,154.762 1231,320.75L1231,922.25C1231,1088.238 1096.238,1223 930.25,1223L328.75,1223C162.762,1223 28,1088.238 28,922.25L28,320.75C28,154.762 162.762,20 328.75,20L930.25,20Z" style="fill:rgb(22,22,22);stroke:rgb(235,235,235);stroke-width:1.24px;"/>
+    </g>
+    <g id="folder" transform="matrix(0.83367,0,0,0.83367,117.641092,57.95558)">
+        <path d="M190,132L374,132C402.667,132 427,143.667 447,167L480,207C500,233 526.667,246 560,246L815,246C891.667,246 930,284.667 930,362L930,758C930,839.333 890,880 810,880L191,880C114.333,880 76,841.667 76,765L76,252C76,172 114,132 190,132ZM215,340C183.667,340 168,356 168,388L168,746C168,777.333 184,793 216,793L793,793C824.333,793 840,777.333 840,746L840,387C840,355.667 824.333,340 793,340L215,340Z" style="fill:url(#_Linear1);"/>
+    </g>
+    <g id="play" transform="matrix(0.83367,0,0,0.83367,117.641092,57.95558)">
+        <path d="M331,447C331,408.333 348.333,398.667 383,418L602,544C636.667,564 636.667,584.333 602,605L383,735C348.333,755 331,745.667 331,707L331,447Z" style="fill:url(#_Linear2);fill-rule:nonzero;"/>
+    </g>
+    <g id="pencil" transform="matrix(0.609708,0.568561,-0.568561,0.609708,767.903572,649.861172)">
+        <path d="M-59,-225L59,-225C82.333,-225 94,-213.333 94,-190L94,121C94,131 91,141.333 85,152L28,241C9.333,266.333 -9.333,266.333 -28,241L-85,152C-91,141.333 -94,131 -94,121L-94,-190C-94,-213.333 -82.333,-225 -59,-225Z" style="fill:rgb(8,126,255);fill-rule:nonzero;"/>
+        <path d="M30.815,-200C51.338,-200 68,-183.338 68,-162.815L68,-130.185C68,-109.662 51.338,-93 30.815,-93L-30.815,-93C-51.338,-93 -68,-109.662 -68,-130.185L-68,-162.815C-68,-183.338 -51.338,-200 -30.815,-200L30.815,-200Z" style="fill:rgb(99,242,255);"/>
+        <rect x="-68" y="-65" width="136" height="177" style="fill:url(#_Linear3);fill-rule:nonzero;"/>
+        <path d="M-68,132L68,132L7,226C2.333,233.333 -2.333,233.333 -7,226L-68,132Z" style="fill:rgb(102,244,255);fill-rule:nonzero;"/>
+    </g>
+    <defs>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(810,570,-570,810,100,190)"><stop offset="0" style="stop-color:rgb(129,43,255);stop-opacity:1"/><stop offset="0.5" style="stop-color:rgb(67,87,255);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(0,189,239);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(310,270,-270,310,340,420)"><stop offset="0" style="stop-color:rgb(117,53,255);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(0,191,242);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear3" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(250,-300,300,250,650,890)"><stop offset="0" style="stop-color:rgb(4,183,245);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(105,246,255);stop-opacity:1"/></linearGradient>
+    </defs>
 </svg>

@@ -3,7 +3,7 @@ WORKDIR /app
 COPY jellyfin_rename.py /app/jellyfin_rename.py
 COPY icon.png /app/store-icon.png
 COPY icon.svg /app/store-icon.svg
-COPY Apps/JellyfinRename/icon.png /app/logo.png
+COPY app-logo.png /app/logo.png
 ENV MEDIA_ROOT=/media \
     LOG_PATH=/config/log.jsonl \
     INTERVAL=1800 \

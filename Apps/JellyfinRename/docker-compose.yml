@@ -1,7 +1,7 @@
 name: jellyfin-rename
 services:
   jellyfin-rename:
-    image: ghcr.io/sergioavila/jellyfin-rename:1.0.0
+    image: ghcr.io/sergioavila/jellyfin-rename:1.0.1
     container_name: jellyfin-rename
     restart: unless-stopped
     labels:
@@ -202,7 +202,7 @@ x-casaos:
   category: Media
   icon: https://raw.githubusercontent.com/sergioavila/jellyfin-rename/main/Apps/JellyfinRename/icon.png
   thumbnail: https://raw.githubusercontent.com/sergioavila/jellyfin-rename/main/Apps/JellyfinRename/icon.png
-  version: "1.0.0"
+  version: "1.0.1"
   tips:
     before_install:
       en_us: |

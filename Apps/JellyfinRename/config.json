@@ -1,6 +1,6 @@
 {
   "id": "jellyfin-rename",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "image": "ghcr.io/sergioavila/jellyfin-rename",
   "youtube": "",
   "docs_link": ""
