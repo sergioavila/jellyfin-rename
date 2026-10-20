@@ -31,7 +31,7 @@ git commit -m "CasaOS app store for Jellyfin Rename"
 gh repo create jellyfin-rename --public --source=. --remote=origin --push
 ```
 
-GitHub Actions publica la imagen en `ghcr.io/<usuario>/jellyfin-rename:1.0.1`. La primera instalación en CasaOS espera a que ese build termine.
+GitHub Actions publica `ghcr.io/sergioavila/jellyfin-rename:latest` (y el tag de versión). CasaOS no hace pull solo: o reinstala desde el ZIP, o usa Watchtower contra el contenedor `jellyfin-rename`.
 
 La imagen en GHCR es privada por defecto en cuentas nuevas: en el repo → Packages → jellyfin-rename → Package settings → Change visibility → Public.
 

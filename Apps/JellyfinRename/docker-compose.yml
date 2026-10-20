@@ -1,7 +1,7 @@
 name: jellyfin-rename
 services:
   jellyfin-rename:
-    image: ghcr.io/sergioavila/jellyfin-rename:1.0.1
+    image: ghcr.io/sergioavila/jellyfin-rename:latest
     container_name: jellyfin-rename
     restart: unless-stopped
     labels:
